@@ -7,8 +7,10 @@ var fs = require('fs')
 
 app.use(upload())
 
-http.listen(7777, () => {
-    console.log("Server listen @ http://localhost:7777")
+const PORT = process.env.PORT || 7777
+
+http.listen(PORT, () => {
+    console.log(`Running on port ${ PORT }`)
 })
 
 app.get('/', (_req, res) => {
