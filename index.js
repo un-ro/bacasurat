@@ -1,38 +1,46 @@
-var app = require('express')()
+var app = require('express')(),
+    upload = require('express-fileupload')
+
 var http = require('http').createServer(app)
 var io = require('socket.io')(http)
-var upload = require('express-fileupload')
 var fs = require('fs')
 
-var d = new Date()
-
 app.use(upload())
-app.io = io
 
 http.listen(7777, () => {
     console.log("Server listen @ http://localhost:7777")
 })
 
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/client.html')
+app.get('/', (_req, res) => {
+    res.sendFile(__dirname + '/public/html/client.html')
 })
 
 app.post('/', (req, res) =>{
-    io.emit('chat', req.files.userFile.name)
-    io.emit('date', today = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear())
-    // fs.readFile(__dirname + '/' + req.files.userFile.name, (e, data) => {
-    //     io.emit('chat', data)
-    // })
-    res.sendFile(__dirname + '/client.html')
-})
 
-app.get('/server', (req, res) => {
-    res.sendFile(__dirname + '/server.html')
-})
+    var uploadedFile = req.files.userFile
+    // Move file to folder
+    uploadedFile.mv(__dirname+'/public/userText/'+uploadedFile.name)
 
-io.on('connection', (socket) => {
-    console.log("New Connection")
-    socket.on('chat', (msg) => {
-        io.emit('chat', msg)
+    // Brodcast file properties to socket
+    io.emit('chat', uploadedFile.name)
+    io.emit('date', new Date().toString())
+
+    // Read txt file and brodcast it.
+    fs.readFile(__dirname + '/public/userText/' + uploadedFile.name, (_e, data) => {
+        io.emit('content', data.toString())
     })
+
+    // After Broadcast send client to submit again.
+    res.sendFile(__dirname + '/public/html/client.html')
+})
+
+// Server route can only accessed by server
+app.get('/server', (req, res) => {
+    var trustedIps = ['::1']; // Only Server can Access
+    var requestIP = req.connection.remoteAddress;
+    if(trustedIps.indexOf(requestIP) >= 0) {
+        res.sendFile(__dirname + '/public/html/server.html')
+    } else {
+        res.sendFile(__dirname + '/public/html/noaccess.html')
+    }
 })

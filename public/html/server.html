@@ -3,10 +3,7 @@
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 shrink-to-fit=yes">
 
     <!-- Bootstrap CSS -->
     <link
@@ -20,9 +17,17 @@
   <body>
     <div class="container bg-primary mt-5 mb-5">
       <div class="row">
-        <h1>Message</h1>
-        <div class="col-md pb-3" id="list">
-          </ul>
+        <div class="col-md pb-3">
+          <h1>Message</h1>
+          <div class="list-group" id="list">
+            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1" id="filename">List group item heading</h5>
+                <small class="text-muted" id="date">3 days ago</small>
+              </div>
+              <textarea class="form-control" id="content" rows="3" disabled></textarea>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -49,17 +54,21 @@
 
     <script>
       var socket = io();
-        $(() => {
-            socket.on('chat', function(msg) {
-              console.log("Something new")
-              $('#list').append($('<a href="#" class="list-group-item list-group-item-action flex-column align-items-start" id="first">'))
-              $('#first').append($('<div class="d-flex w-100 justify-content-between" id="second">'))
-              $('#second').append($('<h5 class="mb-1">').text(msg))
-            });
-            socket.on('date', (date) => {
-              $('#second').append($('<small>').text(date))
-            })
+      $(() => {
+        socket.on("chat", function (msg) {
+          console.log("New Uploader");
+          $('#filename').text('')
+          $('#filename').text(msg)
         });
+        socket.on("date", (date) => {
+          $('#date').text('')
+          $('#date').text(date)
+        });
+        socket.on("content", (content) => {
+          $('#content').text('')
+          $('#content').text(content)
+        });
+      });
     </script>
   </body>
 </html>

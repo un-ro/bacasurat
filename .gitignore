@@ -1,3 +1,5 @@
+/public/userText/*.txt
+
 # Logs
 logs
 *.log
