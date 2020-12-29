@@ -4,6 +4,7 @@
   "description": "Simple app for reading text file",
   "main": "index.js",
   "scripts": {
+    "script": "node index.js",	
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Unero",
