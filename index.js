@@ -18,11 +18,11 @@ http.listen(PORT, () => {
     console.log(`Running on port ${ PORT }`)
 })
 
-app.get('/', (_req, res) => {
+app.get('/client', (_req, res) => {
     res.sendFile(__dirname + '/public/html/client.html')
 })
 
-app.post('/', (req, res) =>{
+app.post('/client', (req, res) =>{
 
     var uploadedFile = req.files.userFile
     // Move file to folder
@@ -54,4 +54,8 @@ app.get('/server', (req, res) => {
 
     // Heroku Patch
     res.sendFile(__dirname + '/public/html/server.html')
+})
+
+app.get('/', (req, res) => {
+    res.sendFile(__dirname+'/public/html/home.html')
 })
