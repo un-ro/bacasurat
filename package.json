@@ -4,7 +4,7 @@
   "description": "Simple app for reading text file",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",	
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Unero",
@@ -14,7 +14,6 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.0",
-    "express-ipfilter": "^1.1.2",
     "socket.io": "^3.0.4"
   }
 }
