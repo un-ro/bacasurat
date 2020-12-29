@@ -3,5 +3,6 @@
 ## How to Use:
 
 1. clone this repo
-2. npm install
-3. Go to localhost:7777
+1. npm install
+1. node index.js
+1. Go to localhost:7777
